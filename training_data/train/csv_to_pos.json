@@ -1,0 +1,6 @@
+{
+  "job_name": "csv_to_pos",
+  "input_components": ["tFileInputDelimited"],
+  "transformation_steps": ["tMap"],
+  "output_components": ["tFileOutputPositional"]
+}
