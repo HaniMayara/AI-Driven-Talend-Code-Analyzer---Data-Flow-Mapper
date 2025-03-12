@@ -1,6 +1,0 @@
-{
-  "job_name": "UsersExtractionCSV",
-  "input_components": ["tPostgresqlInput"],
-  "transformation_steps": [],
-  "output_components": ["tFileOutputDelimited"]
-}

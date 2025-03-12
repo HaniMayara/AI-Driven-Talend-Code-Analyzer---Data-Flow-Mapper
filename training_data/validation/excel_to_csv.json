@@ -1,6 +1,0 @@
-{ 
-"job_name": "excel_to_csv",
-"input_components": [ "tFileInputExcel_1 (Fichier_Excel: reads input.xls)" ],
-"transformation_steps": [ "tMap_1 (Mapping transformation: maps fields from Excel to CSV)" ],
-"output_components": [ "tFileOutputDelimited_1 (fichier_CSV: writes output.csv)" ]
-}

@@ -1,6 +1,52 @@
 {
   "job_name": "DFM_Chargement_Contacts_JSON",
-  "input_components": ["tFileInputJSON"],
-  "transformation_steps": ["tMap (Mapping transformation)"],
-  "output_components": ["tFileOutputJSON"]
+  "job_version": "0.1",
+  "creation_date": "2023-07-31",
+  "author": "j.boucetta@superviseur.talend",
+  "input_components": [
+    {
+      "component": "tFileInputJSON",
+      "source_file": "D:/DFM/DATA/IN/Contacts.json",
+      "data_structure": {
+        "fields": [
+          { "name": "Prenom", "type": "STRING" },
+          { "name": "Num_Telephone", "type": "NUMBER" },
+          { "name": "Nom", "type": "STRING" }
+        ]
+      },
+      "notes": "Reads the JSON records using a JSONPath loop query ($[*])."
+    }
+  ],
+  "input_data": "Contacts.json",
+  "transformation_steps": [
+    {
+      "component": "tMap_1",
+      "mapping": [
+        { "source_field": "Prenom", "target_field": "Nom" },
+        { "source_field": "Num_Telephone", "target_field": "Num_Telephone" },
+        { "source_field": "Nom", "target_field": "Prenom" }
+      ],
+      "notes": "The mapping swaps the 'Prenom' and 'Nom' fields. Verify if this swap is intended."
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputJSON",
+      "destination_file": "D:/DFM/DATA/OUT/Contacts_OUT.json",
+      "data_structure": {
+        "container": "data",
+        "fields": [ "Nom", "Num_Telephone", "Prenom" ]
+      },
+      "notes": "Outputs the transformed data as a JSON object with a 'data' array."
+    }
+  ],
+  "output_data": "Contacts_OUT.json",
+  "anomaly_detection_metadata": {
+    "record_counts": {
+      "input_records_variable": "nb_line_tFileInputJSON_1",
+      "output_records_variable": "nb_line_tFileOutputJSON_1"
+    },
+    "error_logs": "Uses globalMap variables (e.g., tFileInputJSON_1_ERROR_MESSAGE) to capture any errors during processing.",
+    "processing_timestamps": "Component start and end times are recorded in start_Hash and end_Hash for performance monitoring."
+  }
 }

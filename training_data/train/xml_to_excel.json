@@ -1,6 +1,0 @@
-{
-  "job_name": "xml_to_excel",
-  "input_components": [ "tFileInputXML_1 (déclaration_In_Xml: reads déclaration_In_Xml.xml)" ],
-  "transformation_steps": [ "tMap_1 (Mapping transformation: maps fields from XML to Excel)" ],
-  "output_components": [ "tFileOutputExcel_1 (déclaration_out_excel: writes déclaration_out_excel.excel)" ]
-}

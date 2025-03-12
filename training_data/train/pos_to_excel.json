@@ -1,6 +1,0 @@
-{
-  "job_name": "POS_to_Excel",
-  "input_components": [ "tFileInputPositional_1 (fichier_positionnel: reads fichier_positionnel.positional)" ],
-  "transformation_steps": [ "tMap_1 (Mapping transformation: maps fields from POS to Excel)" ],
-  "output_components": [ "tFileOutputExcel_1 (Fichier_Excel: writes Fichier_Excel.excel)" ]
-}

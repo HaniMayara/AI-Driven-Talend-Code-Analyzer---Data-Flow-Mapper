@@ -1,6 +1,0 @@
-{
-  "job_name": "AuditTrailReport",
-  "input_components": ["tPostgresqlInput (users_audit)", "tPostgresqlInput (business_domains_audit)"],
-  "transformation_steps": [],
-  "output_components": ["tFileOutputExcel or tLogRow"]
-}

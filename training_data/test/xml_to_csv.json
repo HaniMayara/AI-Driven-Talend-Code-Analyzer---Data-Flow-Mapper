@@ -1,6 +1,0 @@
-{
-  "job_name": "xml_to_csv",
-  "input_components": ["tFileInputXML"],
-  "transformation_steps": ["tMap"],
-  "output_components": ["tFileOutputDelimited"]
-}

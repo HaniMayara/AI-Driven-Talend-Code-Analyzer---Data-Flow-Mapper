@@ -1,6 +1,0 @@
-{
-  "job_name": "FieldMappingsLineage",
-  "input_components": ["tPostgresqlInput (fields)", "tPostgresqlInput (field_mappings)", "tPostgresqlInput (field_mappings_fields)"],
-  "transformation_steps": ["tMap (Mapping transformation: Join on field_mapping_id and source_fields_id)"],
-  "output_components": ["tLogRow or tFileOutputDelimited"]
-}

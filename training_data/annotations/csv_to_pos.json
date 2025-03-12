@@ -1,6 +1,95 @@
 {
   "job_name": "csv_to_pos",
-  "input_components": ["tFileInputDelimited"],
-  "transformation_steps": ["tMap"],
-  "output_components": ["tFileOutputPositional"]
+  "job_version": "0.1",
+  "creation_date": "2023-11-09",
+  "author": "user@talend.com",
+  "input_components": [
+    {
+      "component": "tFileInputDelimited_1",
+      "source_file": "D:/OneDrive - Talys Consulting/Bureau/Commandes.csv",
+      "data_structure": {
+        "fields": [
+          {
+            "name": "Id_commande_client",
+            "type": "String",
+            "length": 11
+          },
+          {
+            "name": "Date_expedition",
+            "type": "String",
+            "length": 14,
+            "pattern": "dd-MM-yyyy"
+          },
+          {
+            "name": "Numero_transporteur",
+            "type": "String",
+            "length": 11
+          }
+        ],
+        "delimiter": ",",
+        "encoding": "UTF-8"
+      },
+      "notes": "Reads CSV file containing order data with comma delimiter"
+    }
+  ],
+  "input_data": "Commandes.csv",
+  "transformation_steps": [
+    {
+      "component": "tMap_1",
+      "mapping": [
+        {
+          "source_field": "Id_commande_client",
+          "target_field": "Id_commande_client"
+        },
+        {
+          "source_field": "Date_expedition",
+          "target_field": "Date_expedition"
+        },
+        {
+          "source_field": "Numero_transporteur",
+          "target_field": "Numero_transporteur"
+        }
+      ],
+      "notes": "Direct field mapping from CSV to POS structure"
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputPositional_1",
+      "destination_file": "D:/OneDrive - Talys Consulting/Bureau/Commandes.pos",
+      "data_structure": {
+        "fields": [
+          {
+            "name": "Id_commande_client",
+            "length": 11,
+            "padding": "_",
+            "align": "left"
+          },
+          {
+            "name": "Date_expedition",
+            "length": 14,
+            "padding": "_",
+            "align": "left"
+          },
+          {
+            "name": "Numero_transporteur",
+            "length": 11,
+            "padding": "_",
+            "align": "left"
+          }
+        ],
+        "encoding": "UTF-8"
+      },
+      "notes": "Outputs data in fixed-width positional format with underscore padding"
+    }
+  ],
+  "output_data": "Commandes.pos",
+  "anomaly_detection_metadata": {
+    "record_counts": {
+      "input_records_variable": "nb_line_tFileInputDelimited_1",
+      "output_records_variable": "nb_line_tFileOutputPositional_1"
+    },
+    "error_logs": "Uses globalMap variables for error tracking and component status monitoring",
+    "processing_timestamps": "Component execution times tracked in start_Hash and end_Hash maps"
+  }
 }

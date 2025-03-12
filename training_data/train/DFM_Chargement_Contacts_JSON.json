@@ -1,6 +1,0 @@
-{
-  "job_name": "DFM_Chargement_Contacts_JSON",
-  "input_components": ["tFileInputJSON"],
-  "transformation_steps": ["tMap (Mapping transformation)"],
-  "output_components": ["tFileOutputJSON"]
-}

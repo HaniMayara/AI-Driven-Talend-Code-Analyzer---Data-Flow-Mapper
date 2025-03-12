@@ -1,6 +1,0 @@
-{
-  "job_name": "xml_to_xml",
-  "input_components": [ "tFileInputXML_1 (déclaration_In_Xml: reads déclaration_In_Xml.xml)" ],
-  "transformation_steps": [ "tMap_1 (Mapping transformation: maps fields from input XML to output XML)" ],
-  "output_components": [ "tFileOutputXML_1 (déclaration_Out_xml: writes déclaration_Out_xml.xml)" ]
-}

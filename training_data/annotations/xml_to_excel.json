@@ -1,6 +1,87 @@
 {
   "job_name": "xml_to_excel",
-  "input_components": [ "tFileInputXML_1 (déclaration_In_Xml: reads déclaration_In_Xml.xml)" ],
-  "transformation_steps": [ "tMap_1 (Mapping transformation: maps fields from XML to Excel)" ],
-  "output_components": [ "tFileOutputExcel_1 (déclaration_out_excel: writes déclaration_out_excel.excel)" ]
+  "job_version": "0.1",
+  "creation_date": "2023-11-09",
+  "author": "user@talend.com",
+  "input_components": [
+    {
+      "component": "tFileInputXML_1",
+      "source_file": "déclaration_In_Xml.xml",
+      "data_structure": {
+        "fields": [
+          {
+            "name": "root",
+            "type": "TAG",
+            "children": [
+              {
+                "name": "dept",
+                "type": "TAG"
+              },
+              {
+                "name": "employee",
+                "type": "TAG",
+                "children": [
+                  {
+                    "name": "name",
+                    "type": "TAG"
+                  },
+                  {
+                    "name": "salary",
+                    "type": "TAG"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "notes": "Reads XML input with nested structure for employee data"
+    }
+  ],
+  "input_data": "déclaration_In_Xml.xml",
+  "transformation_steps": [
+    {
+      "component": "tMap_1",
+      "mapping": [
+        {
+          "source_field": "dept",
+          "target_field": "dept"
+        },
+        {
+          "source_field": "name",
+          "target_field": "name"
+        },
+        {
+          "source_field": "salary",
+          "target_field": "salary"
+        }
+      ],
+      "notes": "Direct field mapping with structure transformation from nested to flat Excel structure"
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputExcel_1",
+      "destination_file": "déclaration_Out_excel.xls",
+      "data_structure": {
+        "fields": [
+          "dept",
+          "name",
+          "salary"
+        ],
+        "sheet_name": "Sheet1",
+        "header_row": true
+      },
+      "notes": "Outputs transformed data in Excel format with headers"
+    }
+  ],
+  "output_data": "déclaration_Out_excel.xls",
+  "anomaly_detection_metadata": {
+    "record_counts": {
+      "input_records_variable": "nb_line_tFileInputXML_1",
+      "output_records_variable": "nb_line_tFileOutputExcel_1"
+    },
+    "error_logs": "Uses globalMap variables for error tracking and component status monitoring",
+    "processing_timestamps": "Component execution times tracked in start_Hash and end_Hash maps"
+  }
 }
