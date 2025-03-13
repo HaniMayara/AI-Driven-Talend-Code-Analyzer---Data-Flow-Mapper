@@ -27,7 +27,7 @@ logging.basicConfig(
 class TalendMetadataExtractor:
     def __init__(
         self,
-        model_name: str = "codellama/CodeLlama-7b-hf",  # Default to CodeLlama
+        model_name: str = "gpt2",  # Using a smaller model for testing
         use_openai: bool = False,
         training_args: Optional[Dict] = None
     ):
@@ -43,25 +43,38 @@ class TalendMetadataExtractor:
         self.training_args = training_args or {
             'output_dir': 'results',
             'num_train_epochs': 3,
-            'per_device_train_batch_size': 4,
-            'per_device_eval_batch_size': 4,
-            'warmup_steps': 500,
+            'per_device_train_batch_size': 2,  # Reduced batch size
+            'per_device_eval_batch_size': 2,   # Reduced batch size
+            'warmup_steps': 100,               # Reduced warmup steps
             'weight_decay': 0.01,
             'logging_dir': './logs',
+            'fp16': torch.cuda.is_available(),  # Enable mixed precision if GPU available
+            'gradient_accumulation_steps': 4    # Add gradient accumulation
         }
         
         if not use_openai:
-            self.load_model()
+            try:
+                self.load_model()
+            except Exception as e:
+                logging.error(f"Failed to load model: {str(e)}")
+                raise
 
     def load_model(self) -> None:
         """Load the selected model and tokenizer."""
         try:
             logging.info(f"Loading model: {self.model_name}")
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            # Set up padding token
+            if self.tokenizer.pad_token is None:
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+                self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
+            
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.model_name,
                 torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
             )
+            # Ensure the model knows about the padding token
+            self.model.config.pad_token_id = self.tokenizer.pad_token_id
             logging.info("Model loaded successfully")
         except Exception as e:
             logging.error(f"Error loading model: {str(e)}")
@@ -72,15 +85,6 @@ class TalendMetadataExtractor:
         annotations_dir: str,
         test_size: float = 0.2
     ) -> Tuple[Dataset, Dataset]:
-        """Prepare training and validation datasets from annotations.
-
-        Args:
-            annotations_dir: Directory containing JSON annotation files
-            test_size: Proportion of data to use for validation
-
-        Returns:
-            Tuple of (training_dataset, validation_dataset)
-        """
         try:
             data = []
             for file in Path(annotations_dir).glob('*.json'):
@@ -88,22 +92,23 @@ class TalendMetadataExtractor:
                     annotation = json.load(f)
                     
                 # Create prompt from annotation metadata
-                prompt = f"""Extract metadata from the following Talend job:
-                Job Name: {annotation.get('job_name', '')}
-                Version: {annotation.get('job_version', '')}
-                Author: {annotation.get('author', '')}
-                """
+                prompt = f"""Extract metadata from the following Talend job:\nJob Name: {annotation.get('job_name', '')}\nVersion: {annotation.get('job_version', '')}\nAuthor: {annotation.get('author', '')}"""
                 
                 # Format the response as JSON string
                 response = json.dumps({
                     'input_components': annotation.get('input_components', []),
                     'transformation_steps': annotation.get('transformation_steps', []),
                     'output_components': annotation.get('output_components', [])
-                }, indent=2)
+                })
+                
+                # Tokenize the input
+                inputs = self.tokenizer(prompt, truncation=True, padding='max_length', max_length=512)
+                labels = self.tokenizer(response, truncation=True, padding='max_length', max_length=512)
                 
                 data.append({
-                    'prompt': prompt,
-                    'response': response
+                    'input_ids': inputs['input_ids'],
+                    'attention_mask': inputs['attention_mask'],
+                    'labels': labels['input_ids']
                 })
 
             # Split into train and validation sets
@@ -111,12 +116,14 @@ class TalendMetadataExtractor:
             
             # Convert to HuggingFace datasets
             train_dataset = Dataset.from_dict({
-                'prompt': [d['prompt'] for d in train_data],
-                'response': [d['response'] for d in train_data]
+                'input_ids': [d['input_ids'] for d in train_data],
+                'attention_mask': [d['attention_mask'] for d in train_data],
+                'labels': [d['labels'] for d in train_data]
             })
             val_dataset = Dataset.from_dict({
-                'prompt': [d['prompt'] for d in val_data],
-                'response': [d['response'] for d in val_data]
+                'input_ids': [d['input_ids'] for d in val_data],
+                'attention_mask': [d['attention_mask'] for d in val_data],
+                'labels': [d['labels'] for d in val_data]
             })
             
             logging.info(f"Prepared {len(train_data)} training and {len(val_data)} validation examples")

@@ -1,6 +1,73 @@
 {
   "job_name": "ProjectsBusinessDomainsJoin",
-  "input_components": ["tPostgresqlInput (projects)", "tPostgresqlInput (business_domains)"],
-  "transformation_steps": ["tMap (Join on business_domain_id)"],
-  "output_components": ["tLogRow or tFileOutputDelimited"]
+  "job_version": "0.1",
+  "creation_date": "Unknown",
+  "author": "user@talend.com",
+  "project_name": "TALYS",
+  "input_components": [
+    {
+      "component": "tDBInput_1",
+      "source": "Database",
+      "data_structure": {
+        "fields": [
+          { "name": "id", "type": "Long" },
+          { "name": "name", "type": "String" },
+          { "name": "description", "type": "String" },
+          { "name": "budget", "type": "Long" },
+          { "name": "business_domain_id", "type": "Long" }
+        ]
+      },
+      "notes": "Loads project data"
+    },
+    {
+      "component": "tDBInput_2",
+      "source": "Database",
+      "data_structure": {
+        "fields": [
+          { "name": "business_domain_id", "type": "Long" },
+          { "name": "domain_name", "type": "String" }
+        ]
+      },
+      "notes": "Loads business domain data"
+    }
+  ],
+  "transformation_steps": [
+    {
+      "component": "tMap_1",
+      "operation": "Join operation",
+      "mapping": [
+        { "source_field": "id", "target_field": "ProjectID" },
+        { "source_field": "name", "target_field": "ProjectName" },
+        { "source_field": "budget", "target_field": "AllocatedBudget" },
+        { "source_field": "domain_name", "target_field": "BusinessDomain" }
+      ],
+      "notes": "Joins project and business domain data"
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputDelimited_1",
+      "destination": "CSV file",
+      "data_structure": {
+        "fields": [
+          { "name": "ProjectID", "type": "Long" },
+          { "name": "ProjectName", "type": "String" },
+          { "name": "AllocatedBudget", "type": "Long" },
+          { "name": "BusinessDomain", "type": "String" }
+        ],
+        "delimiter": ",",
+        "encoding": "UTF-8"
+      },
+      "notes": "Writes joined results to a CSV file"
+    }
+  ],
+  "output_data": "ProjectsBusinessDomains.csv",
+  "anomaly_detection_metadata": {
+    "record_counts": {
+      "input_records_variable": "nb_line_tDBInput_1",
+      "output_records_variable": "nb_line_tFileOutputDelimited_1"
+    },
+    "error_logs": "Captures potential data mismatches",
+    "processing_timestamps": "Records timestamps for monitoring performance"
+  }
 }

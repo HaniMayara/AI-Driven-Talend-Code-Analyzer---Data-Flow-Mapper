@@ -1,2 +1,156 @@
 2025-03-12 21:40:38,125 - INFO - Loading model: codellama/CodeLlama-7b-hf
 2025-03-12 21:47:05,594 - INFO - Loading model: codellama/CodeLlama-7b-hf
+2025-03-13 04:29:20,382 - INFO - Loading model: codellama/CodeLlama-7b-hf
+2025-03-13 07:07:28,055 - INFO - Loading model: gpt2
+2025-03-13 07:16:06,984 - INFO - Model loaded successfully
+2025-03-13 07:16:07,096 - INFO - Prepared 6 training and 2 validation examples
+2025-03-13 07:16:07,572 - INFO - Starting model training
+2025-03-13 07:16:07,736 - ERROR - Error during training: No columns in the dataset match the model's forward method signature. The following columns have been ignored: [response, prompt]. Please check the dataset and model. You may need to set `remove_unused_columns=False` in `TrainingArguments`.
+2025-03-13 09:42:19,200 - INFO - Loading model: gpt2
+2025-03-13 09:42:20,270 - INFO - Model loaded successfully
+2025-03-13 09:42:20,272 - ERROR - Error preparing dataset: Asking to pad but the tokenizer does not have a padding token. Please select a token to use as `pad_token` `(tokenizer.pad_token = tokenizer.eos_token e.g.)` or add a new pad token via `tokenizer.add_special_tokens({'pad_token': '[PAD]'})`.
+2025-03-13 09:43:14,345 - INFO - Loading model: gpt2
+2025-03-13 09:43:15,254 - INFO - Model loaded successfully
+2025-03-13 09:43:15,301 - INFO - Prepared 6 training and 2 validation examples
+2025-03-13 09:43:15,496 - INFO - Starting model training
+2025-03-13 09:43:34,503 - INFO - Model saved to results
+2025-03-13 09:43:35,858 - INFO - Evaluation metrics: {'eval_loss': 11.080124855041504, 'eval_model_preparation_time': 0.0019, 'eval_runtime': 1.3361, 'eval_samples_per_second': 1.497, 'eval_steps_per_second': 0.748}
+2025-03-13 09:45:34,651 - INFO - Loading model: results
+2025-03-13 09:45:34,663 - ERROR - Error loading model: Can't load tokenizer for 'results'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'results' is the correct path to a directory containing all relevant files for a GPT2TokenizerFast tokenizer.
+2025-03-13 09:45:34,663 - ERROR - Failed to load model: Can't load tokenizer for 'results'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'results' is the correct path to a directory containing all relevant files for a GPT2TokenizerFast tokenizer.
+2025-03-13 09:46:31,266 - INFO - Loading model: results
+2025-03-13 09:46:31,280 - ERROR - Error loading model: Can't load tokenizer for 'results'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'results' is the correct path to a directory containing all relevant files for a GPT2TokenizerFast tokenizer.
+2025-03-13 09:46:31,280 - ERROR - Failed to load model: Can't load tokenizer for 'results'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'results' is the correct path to a directory containing all relevant files for a GPT2TokenizerFast tokenizer.
+2025-03-13 09:47:36,565 - INFO - Loading model: gpt2
+2025-03-13 09:47:37,478 - INFO - Model loaded successfully
+2025-03-13 09:47:37,479 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:47:37,724 - ERROR - Error processing AuditTrailReport: 'list' object has no attribute 'shape'
+2025-03-13 09:47:37,724 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:47:37,802 - ERROR - Error processing FieldMappingsLineage: 'list' object has no attribute 'shape'
+2025-03-13 09:47:37,803 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:47:37,894 - ERROR - Error processing ProjectsBusinessDomainsJoin: 'list' object has no attribute 'shape'
+2025-03-13 09:47:37,896 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:47:37,952 - ERROR - Error processing UsersExtractionCSV: 'list' object has no attribute 'shape'
+2025-03-13 09:47:37,953 - INFO - Testing completed. Success rate: 0/4
+2025-03-13 09:48:18,357 - INFO - Loading model: gpt2
+2025-03-13 09:48:19,216 - INFO - Model loaded successfully
+2025-03-13 09:48:19,216 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:48:19,416 - ERROR - Error processing AuditTrailReport: Input length of input_ids is 512, but `max_length` is set to 512. This can lead to unexpected behavior. You should consider increasing `max_length` or, better yet, setting `max_new_tokens`.
+2025-03-13 09:48:19,416 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:48:19,463 - ERROR - Error processing FieldMappingsLineage: Input length of input_ids is 512, but `max_length` is set to 512. This can lead to unexpected behavior. You should consider increasing `max_length` or, better yet, setting `max_new_tokens`.
+2025-03-13 09:48:19,463 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:48:19,514 - ERROR - Error processing ProjectsBusinessDomainsJoin: Input length of input_ids is 512, but `max_length` is set to 512. This can lead to unexpected behavior. You should consider increasing `max_length` or, better yet, setting `max_new_tokens`.
+2025-03-13 09:48:19,514 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:48:19,537 - ERROR - Error processing UsersExtractionCSV: Input length of input_ids is 512, but `max_length` is set to 512. This can lead to unexpected behavior. You should consider increasing `max_length` or, better yet, setting `max_new_tokens`.
+2025-03-13 09:48:19,538 - INFO - Testing completed. Success rate: 0/4
+2025-03-13 09:49:12,790 - INFO - Loading model: gpt2
+2025-03-13 09:49:14,092 - INFO - Model loaded successfully
+2025-03-13 09:49:14,093 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:49:15,547 - ERROR - Error processing AuditTrailReport: index out of range in self
+2025-03-13 09:49:15,547 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:49:16,405 - ERROR - Error processing FieldMappingsLineage: index out of range in self
+2025-03-13 09:49:16,405 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:49:17,315 - ERROR - Error processing ProjectsBusinessDomainsJoin: index out of range in self
+2025-03-13 09:49:17,316 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:49:18,180 - ERROR - Error processing UsersExtractionCSV: index out of range in self
+2025-03-13 09:49:18,181 - INFO - Testing completed. Success rate: 0/4
+2025-03-13 09:51:38,375 - INFO - Loading model: gpt2
+2025-03-13 09:51:39,490 - INFO - Model loaded successfully
+2025-03-13 09:51:39,491 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:51:40,847 - ERROR - Error processing AuditTrailReport: index out of range in self
+2025-03-13 09:51:40,847 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:51:41,732 - ERROR - Error processing FieldMappingsLineage: index out of range in self
+2025-03-13 09:51:41,733 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:51:42,598 - ERROR - Error processing ProjectsBusinessDomainsJoin: index out of range in self
+2025-03-13 09:51:42,598 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:51:43,487 - ERROR - Error processing UsersExtractionCSV: index out of range in self
+2025-03-13 09:51:43,487 - INFO - Testing completed. Success rate: 0/4
+2025-03-13 09:54:18,177 - INFO - Loading model: gpt2
+2025-03-13 09:54:19,241 - INFO - Model loaded successfully
+2025-03-13 09:54:19,242 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:54:40,642 - ERROR - Could not parse model output as JSON for AuditTrailReport
+2025-03-13 09:54:40,642 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:55:02,081 - ERROR - Could not parse model output as JSON for FieldMappingsLineage
+2025-03-13 09:55:02,081 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:55:23,942 - ERROR - Could not parse model output as JSON for ProjectsBusinessDomainsJoin
+2025-03-13 09:55:23,942 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:55:47,613 - ERROR - Could not parse model output as JSON for UsersExtractionCSV
+2025-03-13 09:55:47,613 - INFO - Testing completed. Success rate: 0/4
+2025-03-13 09:56:03,063 - INFO - Loading model: gpt2
+2025-03-13 09:56:04,118 - INFO - Model loaded successfully
+2025-03-13 09:56:04,119 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:56:27,827 - ERROR - Could not parse model output as JSON for AuditTrailReport
+2025-03-13 09:56:27,827 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:56:51,178 - ERROR - Could not parse model output as JSON for FieldMappingsLineage
+2025-03-13 09:56:51,178 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:57:14,829 - ERROR - Could not parse model output as JSON for ProjectsBusinessDomainsJoin
+2025-03-13 09:57:14,831 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:57:38,403 - ERROR - Could not parse model output as JSON for UsersExtractionCSV
+2025-03-13 09:57:38,404 - INFO - Testing completed. Success rate: 0/4
+2025-03-13 09:59:33,243 - INFO - Loading model: gpt2
+2025-03-13 09:59:34,268 - INFO - Model loaded successfully
+2025-03-13 09:59:34,270 - INFO - Testing model on AuditTrailReport
+2025-03-13 09:59:35,675 - ERROR - Error during model prediction for AuditTrailReport: index out of range in self
+2025-03-13 09:59:35,677 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 09:59:36,567 - ERROR - Error during model prediction for FieldMappingsLineage: index out of range in self
+2025-03-13 09:59:36,567 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 09:59:37,461 - ERROR - Error during model prediction for ProjectsBusinessDomainsJoin: index out of range in self
+2025-03-13 09:59:37,462 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 09:59:38,265 - ERROR - Error during model prediction for UsersExtractionCSV: index out of range in self
+2025-03-13 09:59:38,266 - INFO - Testing completed. Success rate: 4/4
+2025-03-13 10:01:17,611 - INFO - Loading model: gpt2
+2025-03-13 10:01:18,569 - INFO - Model loaded successfully
+2025-03-13 10:01:18,570 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:01:32,979 - ERROR - Error processing model output for AuditTrailReport: name 're' is not defined
+2025-03-13 10:01:32,979 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:01:47,116 - ERROR - Error processing model output for FieldMappingsLineage: name 're' is not defined
+2025-03-13 10:01:47,116 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:02:01,466 - ERROR - Error processing model output for ProjectsBusinessDomainsJoin: name 're' is not defined
+2025-03-13 10:02:01,466 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 10:02:16,570 - ERROR - Error processing model output for UsersExtractionCSV: name 're' is not defined
+2025-03-13 10:02:16,571 - INFO - Testing completed. Success rate: 4/4
+2025-03-13 10:03:22,693 - INFO - Loading model: gpt2
+2025-03-13 10:03:23,826 - INFO - Model loaded successfully
+2025-03-13 10:03:23,826 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:03:42,109 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:04:00,170 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:04:16,588 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 10:04:31,558 - INFO - Testing completed. Success rate: 4/4
+2025-03-13 10:07:58,610 - INFO - Loading model: gpt2
+2025-03-13 10:07:59,748 - INFO - Model loaded successfully
+2025-03-13 10:07:59,749 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:08:19,358 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:08:33,304 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:08:51,424 - INFO - Testing completed. Success rate: 3/3
+2025-03-13 10:14:28,882 - INFO - Loading model: gpt2
+2025-03-13 10:14:29,811 - INFO - Model loaded successfully
+2025-03-13 10:14:29,812 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:14:43,701 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:14:57,316 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:15:11,234 - INFO - Testing completed. Success rate: 3/3
+2025-03-13 10:15:32,079 - INFO - Loading model: gpt2
+2025-03-13 10:15:33,028 - INFO - Model loaded successfully
+2025-03-13 10:15:33,029 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:15:47,021 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:16:04,399 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:16:21,380 - INFO - Testing completed. Success rate: 3/3
+2025-03-13 10:16:56,193 - INFO - Loading model: gpt2
+2025-03-13 10:16:57,287 - INFO - Model loaded successfully
+2025-03-13 10:16:57,288 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:17:16,581 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:17:35,673 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:17:54,788 - INFO - Testing completed. Success rate: 3/3
+2025-03-13 10:24:19,786 - INFO - Loading model: gpt2
+2025-03-13 10:24:20,981 - INFO - Model loaded successfully
+2025-03-13 10:24:20,982 - INFO - Testing model on AuditTrailReport
+2025-03-13 10:24:39,026 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 10:24:56,901 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 10:25:14,725 - INFO - Testing completed. Success rate: 3/3
+2025-03-13 10:34:03,802 - INFO - Loading model: gpt2
+2025-03-13 10:34:04,713 - INFO - Model loaded successfully
+2025-03-13 10:34:04,714 - INFO - Testing model on UsersExtractionCSV
+2025-03-13 10:34:18,199 - INFO - Testing completed. Success rate: 1/1
+2025-03-13 11:28:06,708 - INFO - Loading model: gpt2
+2025-03-13 11:28:08,144 - INFO - Model loaded successfully
+2025-03-13 11:28:08,146 - INFO - Testing model on AuditTrailReport
+2025-03-13 11:28:50,739 - INFO - Testing completed. Success rate: 1/1

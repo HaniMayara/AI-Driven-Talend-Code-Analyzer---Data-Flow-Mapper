@@ -1,6 +1,61 @@
 {
   "job_name": "FieldMappingsLineage",
-  "input_components": ["tPostgresqlInput (fields)", "tPostgresqlInput (field_mappings)", "tPostgresqlInput (field_mappings_fields)"],
-  "transformation_steps": ["tMap (Mapping transformation: Join on field_mapping_id and source_fields_id)"],
-  "output_components": ["tLogRow or tFileOutputDelimited"]
+  "job_version": "0.1",
+  "creation_date": "Unknown",
+  "author": "user@talend.com",
+  "project_name": "TALYS",
+  "input_components": [
+    {
+      "component": "tDBInput_1",
+      "source": "Database",
+      "data_structure": {
+        "fields": [
+          { "name": "field_mapping_id", "type": "Long" },
+          { "name": "source_fields_id", "type": "Long" },
+          { "name": "name", "type": "String" },
+          { "name": "expression", "type": "String" },
+          { "name": "type", "type": "String" },
+          { "name": "description", "type": "String" }
+        ]
+      },
+      "notes": "Reads field mapping lineage from the database"
+    }
+  ],
+  "transformation_steps": [
+    {
+      "component": "tMap_1",
+      "operation": "Field mapping transformation",
+      "mapping": [
+        { "source_field": "source_fields_id", "target_field": "MappedFieldID" },
+        { "source_field": "name", "target_field": "FieldName" },
+        { "source_field": "expression", "target_field": "TransformationRule" }
+      ],
+      "notes": "Transforms field mappings and creates lineage relationships"
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputDelimited_1",
+      "destination": "CSV file",
+      "data_structure": {
+        "fields": [
+          { "name": "MappedFieldID", "type": "Long" },
+          { "name": "FieldName", "type": "String" },
+          { "name": "TransformationRule", "type": "String" }
+        ],
+        "delimiter": ",",
+        "encoding": "UTF-8"
+      },
+      "notes": "Writes transformed mappings to a CSV file"
+    }
+  ],
+  "output_data": "FieldMappings.csv",
+  "anomaly_detection_metadata": {
+    "record_counts": {
+      "input_records_variable": "nb_line_tDBInput_1",
+      "output_records_variable": "nb_line_tFileOutputDelimited_1"
+    },
+    "error_logs": "Captures error messages for debugging",
+    "processing_timestamps": "Tracks execution time for each component"
+  }
 }

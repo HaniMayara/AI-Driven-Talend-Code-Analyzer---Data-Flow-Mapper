@@ -1,0 +1,80 @@
+{
+  "AuditTrailReport": {
+    "ground_truth": {
+      "job_name": "AuditTrailReport",
+      "job_version": "0.1",
+      "creation_date": "Unknown",
+      "author": "user@talend.com",
+      "project_name": "TALYS",
+      "input_components": [
+        {
+          "component": "tDBInput_1",
+          "source": "Database",
+          "notes": "Reads data from a database source"
+        },
+        {
+          "component": "tDBInput_2",
+          "source": "Database",
+          "notes": "Reads additional data from a database source"
+        }
+      ],
+      "transformation_steps": [
+        {
+          "component": "tFilterRow_1",
+          "operation": "Filter records",
+          "notes": "Filters data based on predefined conditions"
+        }
+      ],
+      "output_components": [
+        {
+          "component": "tFileOutputExcel_1",
+          "destination": "Excel file",
+          "notes": "Writes output to an Excel file"
+        },
+        {
+          "component": "tFileOutputExcel_2",
+          "destination": "Excel file",
+          "notes": "Writes additional output to an Excel file"
+        }
+      ],
+      "anomaly_detection_metadata": {
+        "error_logs": "Captures error messages using globalMap variables",
+        "processing_timestamps": "Records start and end times of components"
+      }
+    },
+    "prediction": {
+      "input_components": [
+        {
+          "component": "tDBInput_1",
+          "source": "Database",
+          "notes": "Reads data from database source"
+        },
+        {
+          "component": "tDBInput_2",
+          "source": "Database",
+          "notes": "Reads data from database source"
+        }
+      ],
+      "transformation_steps": [
+        {
+          "component": "tFilterRow_1",
+          "operation": "Filter records",
+          "notes": "Performs filter records"
+        }
+      ],
+      "output_components": [
+        {
+          "component": "tFileOutputExcel_1",
+          "destination": "Excel file",
+          "notes": "Writes output to excel file"
+        },
+        {
+          "component": "tFileOutputExcel_2",
+          "destination": "Excel file",
+          "notes": "Writes output to excel file"
+        }
+      ]
+    },
+    "success": true
+  }
+}
