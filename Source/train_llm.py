@@ -91,19 +91,48 @@ class TalendMetadataExtractor:
                 with open(file, 'r', encoding='utf-8') as f:
                     annotation = json.load(f)
                     
-                # Create prompt from annotation metadata
-                prompt = f"""Extract metadata from the following Talend job:\nJob Name: {annotation.get('job_name', '')}\nVersion: {annotation.get('job_version', '')}\nAuthor: {annotation.get('author', '')}"""
+                # Get corresponding flowchart and mapping files
+                job_name = annotation.get('job_name', '')
+                flowchart_file = Path(annotations_dir).parent / 'flowcharts' / f'flowchart_{job_name}.json'
+                mapping_file = Path(annotations_dir).parent / 'mappings' / f'mapping_{job_name}.json'
                 
-                # Format the response as JSON string
+                flowchart = {}
+                mapping = {}
+                
+                if flowchart_file.exists():
+                    with open(flowchart_file, 'r', encoding='utf-8') as f:
+                        flowchart = json.load(f)
+                        
+                if mapping_file.exists():
+                    with open(mapping_file, 'r', encoding='utf-8') as f:
+                        mapping = json.load(f)
+                    
+                # Create comprehensive prompt
+                prompt = f"""Extract metadata and generate documentation from the following Talend job:
+Job Name: {annotation.get('job_name', '')}
+Version: {annotation.get('job_version', '')}
+Author: {annotation.get('author', '')}
+
+Generate three types of documentation:
+1. Component annotations (input/output/transformation)
+2. Data flow diagram
+3. Field-level mappings"""
+                
+                # Format the complete response as JSON string
                 response = json.dumps({
-                    'input_components': annotation.get('input_components', []),
-                    'transformation_steps': annotation.get('transformation_steps', []),
-                    'output_components': annotation.get('output_components', [])
+                    'annotations': {
+                        'input_components': annotation.get('input_components', []),
+                        'transformation_steps': annotation.get('transformation_steps', []),
+                        'output_components': annotation.get('output_components', [])
+                    },
+                    'flowchart': flowchart,
+                    'mapping': mapping
                 })
                 
-                # Tokenize the input
-                inputs = self.tokenizer(prompt, truncation=True, padding='max_length', max_length=512)
-                labels = self.tokenizer(response, truncation=True, padding='max_length', max_length=512)
+                # Tokenize with consistent max length for inputs and labels
+                max_length = 1024
+                inputs = self.tokenizer(prompt, truncation=True, padding='max_length', max_length=max_length)
+                labels = self.tokenizer(response, truncation=True, padding='max_length', max_length=max_length)
                 
                 data.append({
                     'input_ids': inputs['input_ids'],

@@ -154,3 +154,34 @@
 2025-03-13 11:28:08,144 - INFO - Model loaded successfully
 2025-03-13 11:28:08,146 - INFO - Testing model on AuditTrailReport
 2025-03-13 11:28:50,739 - INFO - Testing completed. Success rate: 1/1
+2025-03-13 11:37:34,107 - INFO - Loading model: gpt2
+2025-03-13 11:37:35,524 - INFO - Model loaded successfully
+2025-03-13 11:37:35,524 - INFO - Testing model on AuditTrailReport
+2025-03-13 11:38:09,961 - INFO - Testing model on FieldMappingsLineage
+2025-03-13 11:38:39,687 - INFO - Testing model on ProjectsBusinessDomainsJoin
+2025-03-13 11:39:26,969 - INFO - Testing completed. Success rate: 3/3
+2025-03-14 01:56:41,814 - INFO - Loading model: gpt2
+2025-03-14 01:56:43,554 - INFO - Model loaded successfully
+2025-03-14 01:56:43,632 - INFO - Prepared 6 training and 2 validation examples
+2025-03-14 01:56:44,085 - INFO - Starting model training
+2025-03-14 01:57:42,721 - INFO - Model saved to results
+2025-03-14 01:57:46,988 - ERROR - Error during evaluation: Expected input batch_size (2048) to match target batch_size (4096).
+2025-03-14 02:33:47,986 - INFO - Loading model: gpt2
+2025-03-14 02:33:49,347 - INFO - Model loaded successfully
+2025-03-14 02:33:49,417 - INFO - Prepared 6 training and 2 validation examples
+2025-03-14 02:33:49,709 - INFO - Starting model training
+2025-03-14 02:34:37,622 - INFO - Model saved to results
+2025-03-14 02:34:41,145 - INFO - Evaluation metrics: {'eval_loss': 12.10974407196045, 'eval_model_preparation_time': 0.0019, 'eval_runtime': 3.2825, 'eval_samples_per_second': 0.609, 'eval_steps_per_second': 0.305}
+2025-03-14 02:35:08,084 - INFO - Loading model: gpt2
+2025-03-14 02:35:09,477 - INFO - Model loaded successfully
+2025-03-14 02:35:09,478 - INFO - Testing model on AuditTrailReport
+2025-03-14 02:35:26,712 - ERROR - Error during model prediction for AuditTrailReport: index out of range in self
+2025-03-14 02:35:26,713 - INFO - Testing model on FieldMappingsLineage
+2025-03-14 02:35:43,050 - ERROR - Error during model prediction for FieldMappingsLineage: index out of range in self
+2025-03-14 02:35:43,050 - INFO - Testing completed. Success rate: 0/2
+2025-03-14 02:37:31,924 - INFO - Loading model: gpt2
+2025-03-14 02:37:32,873 - INFO - Model loaded successfully
+2025-03-14 02:37:32,874 - INFO - Testing model on AuditTrailReport
+2025-03-14 02:48:34,616 - INFO - Loading model: gpt2
+2025-03-14 02:48:35,564 - INFO - Model loaded successfully
+2025-03-14 02:48:35,565 - INFO - Testing model on AuditTrailReport

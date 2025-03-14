@@ -59,18 +59,8 @@ class ModelTester:
             raise
 
     def test_model(self, test_dir: str) -> Dict[str, Dict]:
-        """Test the model on Java files in the test directory.
-
-        Args:
-            test_dir: Directory containing test files
-
-        Returns:
-            Dictionary containing test results for each file
-        """
         results = {}
         test_dir_path = Path(test_dir)
-
-        # Get all Java files in test directory
         java_files = list(test_dir_path.glob('*.java'))
         
         for java_file in java_files:
@@ -78,171 +68,122 @@ class ModelTester:
             logging.info(f"Testing model on {file_name}")
             
             try:
-                # Load Java code
                 java_code = self.load_java_file(str(java_file))
-                
-                # Load corresponding JSON file (ground truth)
                 json_file = test_dir_path / f"{file_name}.json"
+                
                 if not json_file.exists():
                     logging.warning(f"No corresponding JSON file found for {file_name}")
                     continue
                     
                 ground_truth = self.load_json_file(str(json_file))
                 
-                # Create input prompt with structured template
-                prompt = f"""Extract metadata from the following Talend job:
+                # Enhanced prompt for comprehensive output
+                prompt = f"""Extract metadata and generate documentation from the following Talend job:
 Job Name: {file_name}
 Code:
 {java_code}
 
-Analyze the Talend job and identify:
-1. Input components (e.g., tPostgresqlInput, tFileInput)
-2. Transformation steps (e.g., tMap for joins, tFilterRow)
-3. Output components (e.g., tFileOutputExcel, tLogRow)
+Generate three types of documentation:
+1. Component annotations (input/output/transformation components with their properties)
+2. Data flow diagram (component connections and relationships)
+3. Field-level mappings (source to target field mappings)
 
 Provide output in the following JSON format:
 {{
-    "input_components": [],
-    "transformation_steps": [],
-    "output_components": []
+    "annotations": {{
+        "input_components": [],
+        "transformation_steps": [],
+        "output_components": []
+    }},
+    "flowchart": {{
+        "cells": []
+    }},
+    "mapping": {{
+        "cells": []
+    }}
 }}"""
                 
-                # Get model prediction
                 try:
-                    # Ensure input length doesn't exceed model's maximum context
-                    max_input_length = 512  # Reduced to stay within model's context window
-                    max_new_tokens = 256    # Reduced to prevent index out of range errors
+                    # Increased context window for handling larger outputs
+                    max_input_length = 512  # Reduced from 2048 to avoid memory issues
+                    max_new_tokens = 512    # Reduced from 1024
                     
-                    # Truncate and format the Java code to fit within context window
-                    truncated_code = java_code[:max_input_length * 2]  # Leave room for prompt
+                    # Process Java code in smaller chunks
+                    chunk_size = 400  # Smaller chunk size
+                    code_chunks = [java_code[i:i + chunk_size] for i in range(0, len(java_code), chunk_size)]
+                    predictions = []
                     
-                    # Add explicit JSON structure to prompt with shorter context
-                    prompt = f"""Extract metadata from the following Talend job and identify its components:
-Job Name: {file_name}
-Code:
-{truncated_code}
-
-Analyze and categorize the components into:
-1. Input components: Database inputs (tPostgresqlInput) or file inputs (tFileInput)
-2. Transformation steps: Data mappings (tMap), filters (tFilterRow), etc.
-3. Output components: File outputs (tFileOutput) or display (tLogRow)
-
-Output (JSON only):
-{{
-    "input_components": [],
-    "transformation_steps": [],
-    "output_components": []
-}}"""
-                    
-                    # Adjust tokenizer settings for better prediction
-                    inputs = self.extractor.tokenizer(
-                        prompt,
-                        truncation=True,
-                        padding='max_length',
-                        max_length=max_input_length,
-                        return_tensors='pt'
-                    )
-                    
-                    # Generate with optimized parameters for better prediction
-                    outputs = self.extractor.model.generate(
-                        input_ids=inputs['input_ids'],
-                        attention_mask=inputs['attention_mask'],
-                        max_new_tokens=max_new_tokens,
-                        num_return_sequences=1,
-                        pad_token_id=self.extractor.tokenizer.pad_token_id,
-                        do_sample=True,
-                        temperature=0.9,      # Increased temperature for more diverse outputs
-                        top_p=0.95,          # Adjusted nucleus sampling
-                        top_k=50,            # Added top-k sampling
-                        eos_token_id=self.extractor.tokenizer.eos_token_id,
-                        repetition_penalty=1.5, # Increased repetition penalty
-                        length_penalty=1.0,    # Added length penalty
-                        no_repeat_ngram_size=2 # Prevent repetition of 2-grams
-                    )
-                    
-                    # Enhanced output processing
-                    if outputs is not None and len(outputs) > 0 and len(outputs[0]) > 0:
-                        try:
-                            predicted_text = self.extractor.tokenizer.decode(outputs[0], skip_special_tokens=True)
-                            predicted_text = predicted_text.strip()
-                            
-                            # Improved component extraction
-                            input_components = []
-                            transform_components = []
-                            output_components = []
-                            
-                            # Extract components from Java code
-                            input_pattern = r't\w*Input\w*_\d+(?!\w)'  # Matches tDBInput_1, tFileInput_1 etc, prevents partial matches
-                            transform_pattern = r't(?:Map|Filter|Sort|Aggregate|AdvancedHash)\w*_\d+(?!\w)'
-                            output_pattern = r't\w*Output\w*_\d+(?!\w)'
-                            
-                            # Find all unique components using sets
-                            input_matches = set(match.group(0) for match in re.finditer(input_pattern, java_code))
-                            transform_matches = set(match.group(0) for match in re.finditer(transform_pattern, java_code))
-                            output_matches = set(match.group(0) for match in re.finditer(output_pattern, java_code))
-                            
-                            # Process input components
-                            for component in input_matches:
-                                input_components.append({
-                                    "component": component,
-                                    "source": "Database" if "DB" in component else "File",
-                                    "notes": f"Reads data from {'database' if 'DB' in component else 'file'} source"
-                                })
-                            
-                            # Process transformation components
-                            for component in transform_matches:
-                                operation = "Join operation" if "Map" in component else \
-                                           "Filter records" if "Filter" in component else \
-                                           "Sort records" if "Sort" in component else \
-                                           "Aggregate records" if "Aggregate" in component else \
-                                           "Join operation" if "AdvancedHash" in component else \
-                                           "Data transformation"
-                                transform_components.append({
-                                    "component": component,
-                                    "operation": operation,
-                                    "notes": f"Performs {operation.lower()}"
-                                })
-                            
-                            # Process output components
-                            for component in output_matches:
-                                destination = "Excel file" if "Excel" in component else \
-                                             "CSV file" if "Delimited" in component else \
-                                             "Console" if "Log" in component else "File"
-                                output_components.append({
-                                    "component": component,
-                                    "destination": destination,
-                                    "notes": f"Writes output to {destination.lower()}"
-                                })
-                            
-                            predicted_json = {
-                                "input_components": input_components,
-                                "transformation_steps": transform_components,
-                                "output_components": output_components
-                            }
-                                
-                        except Exception as e:
-                            logging.error(f"Error processing model output for {file_name}: {str(e)}")
-                            predicted_json = {
-                                "input_components": [],
-                                "transformation_steps": [],
-                                "output_components": []
-                            }
-                    else:
-                        predicted_json = {
-                            "input_components": [],
-                            "transformation_steps": [],
-                            "output_components": []
-                        }
+                    for chunk in code_chunks:
+                        inputs = self.extractor.tokenizer(
+                            prompt.replace(java_code, chunk),
+                            truncation=True,
+                            padding='max_length',
+                            max_length=max_input_length,
+                            return_tensors='pt'
+                        )
                         
+                        outputs = self.extractor.model.generate(
+                            input_ids=inputs['input_ids'],
+                            attention_mask=inputs['attention_mask'],
+                            max_new_tokens=max_new_tokens,
+                            num_return_sequences=1,
+                            pad_token_id=self.extractor.tokenizer.pad_token_id,
+                            do_sample=True,
+                            temperature=0.7,      # Adjusted for more focused outputs
+                            top_p=0.95,
+                            top_k=50,
+                            repetition_penalty=1.2,
+                            length_penalty=1.0,
+                            no_repeat_ngram_size=3
+                        )
+                        
+                        if outputs is not None and len(outputs) > 0:
+                            predicted_text = self.extractor.tokenizer.decode(outputs[0], skip_special_tokens=True)
+                            predictions.append(predicted_text.strip())
+                    
+                    # Combine and process predictions
+                    combined_prediction = '\n'.join(predictions)
+                    
+                    try:
+                        predicted_json = json.loads(combined_prediction)
+                    except json.JSONDecodeError:
+                        # Attempt to extract JSON from the text
+                        json_pattern = r'\{[^}]*\}'
+                        json_matches = re.finditer(json_pattern, combined_prediction)
+                        predicted_json = {}
+                        
+                        for match in json_matches:
+                            try:
+                                json_part = json.loads(match.group())
+                                predicted_json.update(json_part)
+                            except:
+                                continue
+                    
+                    # Ensure all required sections are present
+                    if not all(key in predicted_json for key in ['annotations', 'flowchart', 'mapping']):
+                        predicted_json = {
+                            'annotations': predicted_json if 'input_components' in predicted_json else {
+                                'input_components': [],
+                                'transformation_steps': [],
+                                'output_components': []
+                            },
+                            'flowchart': {'cells': []},
+                            'mapping': {'cells': []}
+                        }
+                    
                 except Exception as e:
                     logging.error(f"Error during model prediction for {file_name}: {str(e)}")
                     predicted_json = {
-                        "input_components": [],
-                        "transformation_steps": [],
-                        "output_components": []
+                        'annotations': {
+                            'input_components': [],
+                            'transformation_steps': [],
+                            'output_components': []
+                        },
+                        'flowchart': {'cells': []},
+                        'mapping': {'cells': []}
                     }
                 
-                # Compare prediction with ground truth
+                # Compare predictions with ground truth
                 results[file_name] = {
                     'ground_truth': ground_truth,
                     'prediction': predicted_json,
