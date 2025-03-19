@@ -1,0 +1,132 @@
+{
+  "job_name": "xml_to_csv",
+  "job_version": "0.1",
+  "project_name": "MIGRATIONUBCI",
+  "author": "user@talend.com",
+  "description": "Converts XML structured employee data to CSV format",
+  "input_components": [
+    {
+      "component": "tFileInputXML_1",
+      "name": "tFileInputXML_1",
+      "type": "input",
+      "source_file": "déclaration_In_Xml.xml",
+      "data_structure": {
+        "type": "xml",
+        "fields": [
+          {
+            "name": "root",
+            "type": "TAG",
+            "children": [
+              {
+                "name": "dept",
+                "type": "TAG"
+              },
+              {
+                "name": "employee",
+                "type": "TAG",
+                "children": [
+                  {
+                    "name": "name",
+                    "type": "TAG"
+                  },
+                  {
+                    "name": "salary",
+                    "type": "TAG"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "transformation_components": [
+    {
+      "component": "tMap_1",
+      "name": "tMap_1",
+      "type": "transformation",
+      "mapping": [
+        {
+          "source_field": "dept",
+          "target_field": "dept",
+          "type": "direct"
+        },
+        {
+          "source_field": "name",
+          "target_field": "name",
+          "type": "direct"
+        },
+        {
+          "source_field": "salary",
+          "target_field": "salary",
+          "type": "direct"
+        }
+      ]
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputDelimited_1",
+      "name": "tFileOutputDelimited_1",
+      "type": "output",
+      "destination_file": "déclaration_Out_csv.csv",
+      "data_structure": {
+        "type": "csv",
+        "fields": [
+          {
+            "name": "dept",
+            "type": "STRING"
+          },
+          {
+            "name": "name",
+            "type": "STRING"
+          },
+          {
+            "name": "salary",
+            "type": "STRING"
+          }
+        ],
+        "delimiter": ",",
+        "encoding": "UTF-8"
+      }
+    }
+  ],
+  "processing_logic": {
+    "description": "Extracts data from XML structure and transforms it to flat CSV format",
+    "main_flow": "tFileInputXML_1 → tMap_1 → tFileOutputDelimited_1",
+    "error_handling": {
+      "component_error_handlers": [
+        "tFileInputXML_1_error",
+        "tMap_1_error",
+        "tFileOutputDelimited_1_error"
+      ],
+      "error_logging": "Uses globalMap variables for error tracking and component status monitoring"
+    },
+    "performance_tracking": {
+      "start_time_tracking": "start_Hash map",
+      "end_time_tracking": "end_Hash map",
+      "status_tracking": "ok_Hash map"
+    }
+  },
+  "data_structures": {
+    "input": {
+      "csvStruct": {
+        "fields": [
+          {
+            "name": "dept",
+            "type": "String"
+          },
+          {
+            "name": "name",
+            "type": "String"
+          },
+          {
+            "name": "salary",
+            "type": "String"
+          }
+        ]
+      }
+    }
+  }
+}

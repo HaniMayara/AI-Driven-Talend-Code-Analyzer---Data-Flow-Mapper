@@ -1,0 +1,39 @@
+{
+  "job_name": "",
+  "job_version": "0.1",
+  "project_name": "MIGRATION",
+  "author": "user@talend.com",
+  "description": "",
+  "input_components": [
+    {
+      "component": "tFileInputXML_1",
+      "name": "tFileInputXML_1",
+      "type": "input"
+    }
+  ],
+  "transformation_components": [
+    {
+      "component": "tMap_1",
+      "name": "tMap_1",
+      "type": "transformation"
+    }
+  ],
+  "output_components": [
+    {
+      "component": "tFileOutputDelimited_1",
+      "name": "tFileOutputDelimited_1",
+      "type": "output"
+    }
+  ],
+  "processing_logic": {
+    "description": "",
+    "main_flow": "tFileInputXML_1 \u2192 tMap_1 \u2192 tFileOutputDelimited_1",
+    "error_handling": {
+      "component_error_handlers": [],
+      "error_logging": ""
+    }
+  },
+  "data_structures": {
+    "input": {}
+  }
+}

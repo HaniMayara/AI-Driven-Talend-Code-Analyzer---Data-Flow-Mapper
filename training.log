@@ -185,3 +185,54 @@
 2025-03-14 02:48:34,616 - INFO - Loading model: gpt2
 2025-03-14 02:48:35,564 - INFO - Model loaded successfully
 2025-03-14 02:48:35,565 - INFO - Testing model on AuditTrailReport
+2025-03-14 03:05:23,649 - INFO - Loading model: gpt2
+2025-03-14 03:05:24,619 - INFO - Model loaded successfully
+2025-03-14 03:05:24,619 - INFO - Testing model on FieldMappingsLineage
+2025-03-14 03:08:37,267 - INFO - Loading model: gpt2
+2025-03-14 03:08:45,280 - INFO - Model loaded successfully
+2025-03-14 03:08:45,280 - INFO - Testing model on AuditTrailReport
+2025-03-14 10:47:07,266 - INFO - Loading model: gpt2
+2025-03-14 10:47:08,670 - INFO - Model loaded successfully
+2025-03-14 10:47:08,671 - INFO - Processing file 1/2: AuditTrailReport
+2025-03-14 10:47:08,674 - ERROR - Error during model prediction for AuditTrailReport: name 'torch' is not defined
+2025-03-14 10:47:08,675 - INFO - Processing file 2/2: FieldMappingsLineage
+2025-03-14 10:47:08,676 - ERROR - Error during model prediction for FieldMappingsLineage: name 'torch' is not defined
+2025-03-14 10:47:08,677 - INFO - Testing completed. Success rate: 0/2
+2025-03-14 10:48:58,331 - INFO - Loading model: gpt2
+2025-03-14 10:48:59,235 - INFO - Model loaded successfully
+2025-03-14 10:48:59,236 - INFO - Processing file 1/2: AuditTrailReport
+2025-03-14 11:20:30,985 - INFO - Loading model: gpt2
+2025-03-14 11:20:31,922 - INFO - Model loaded successfully
+2025-03-14 11:22:40,484 - INFO - Loading model: gpt2
+2025-03-14 11:22:41,715 - INFO - Model loaded successfully
+2025-03-14 11:23:38,817 - ERROR - Error processing AuditTrailReport: [Errno 22] Invalid argument
+2025-03-14 11:28:15,187 - INFO - Loading model: distilgpt2
+2025-03-14 11:33:57,204 - INFO - Model loaded successfully
+2025-03-14 11:33:57,274 - INFO - Prepared 6 training and 2 validation examples
+2025-03-14 11:33:57,620 - INFO - Starting model training
+2025-03-14 11:34:53,712 - INFO - Model saved to results
+2025-03-14 11:34:55,650 - INFO - Evaluation metrics: {'eval_loss': 12.233778953552246, 'eval_model_preparation_time': 0.0003, 'eval_runtime': 1.6399, 'eval_samples_per_second': 1.22, 'eval_steps_per_second': 0.61}
+2025-03-14 13:01:07,639 - INFO - Loading model: distilgpt2
+2025-03-14 13:01:08,514 - INFO - Model loaded successfully
+2025-03-14 14:29:06,713 - INFO - Loading model: distilgpt2
+2025-03-14 14:29:07,710 - INFO - Model loaded successfully
+2025-03-14 16:41:48,137 - INFO - Loading model: distilgpt2
+2025-03-14 16:41:48,951 - INFO - Model loaded successfully
+2025-03-14 16:41:48,966 - ERROR - Error preparing dataset: name 'max_length' is not defined
+2025-03-14 16:42:42,641 - INFO - Loading model: distilgpt2
+2025-03-14 16:42:43,516 - INFO - Model loaded successfully
+2025-03-14 16:42:43,648 - ERROR - Error preparing dataset: too many indices for tensor of dimension 2
+2025-03-14 16:44:20,766 - INFO - Loading model: distilgpt2
+2025-03-14 16:44:21,693 - INFO - Model loaded successfully
+2025-03-14 16:44:21,734 - ERROR - Error preparing dataset: too many indices for tensor of dimension 1
+2025-03-14 16:56:14,910 - INFO - Loading model: distilgpt2
+2025-03-14 16:56:15,756 - INFO - Model loaded successfully
+2025-03-14 16:56:15,811 - ERROR - Error preparing dataset: too many indices for tensor of dimension 2
+2025-03-14 17:01:20,482 - INFO - Loading model: distilgpt2
+2025-03-14 17:01:21,407 - INFO - Model loaded successfully
+2025-03-14 17:01:21,664 - INFO - Prepared 6 training and 2 validation examples
+2025-03-14 17:01:22,048 - INFO - Starting model training
+2025-03-14 17:02:00,011 - INFO - Model saved to results
+2025-03-14 17:02:00,981 - INFO - Evaluation metrics: {'eval_loss': 12.922478675842285, 'eval_model_preparation_time': 0.0078, 'eval_runtime': 0.7481, 'eval_samples_per_second': 2.674, 'eval_steps_per_second': 1.337}
+2025-03-14 17:03:45,124 - INFO - Loading model: distilgpt2
+2025-03-14 17:03:46,121 - INFO - Model loaded successfully
